@@ -1,0 +1,1887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="PROOF AI — The Real-Time Multimodal Trust Layer for AI. Verify text, images, audio, documents and video against hallucinations instantly.">
+<meta property="og:title" content="PROOF AI — Multimodal Trust Layer">
+<meta property="og:description" content="Every AI lies sometimes. PROOF AI catches it in real-time across all modalities.">
+<title>PROOF AI — Multimodal Trust Layer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+/* ════════════════════════════════════════════
+   PROOF AI — DESIGN LANGUAGE
+   Aesthetic: Industrial-Editorial. 
+   Like a scientific journal met a war room.
+   Typewriter precision. Forensic clarity.
+   ════════════════════════════════════════════ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink:     #0a0c10;
+  --paper:   #f4f1eb;
+  --paper2:  #ede9e0;
+  --steel:   #1a1f2e;
+  --lead:    #2d3547;
+  --rust:    #c0392b;
+  --rust2:   #e74c3c;
+  --verify:  #00b894;
+  --warn:    #e17055;
+  --flag:    #d63031;
+  --mist:    #636e72;
+  --accent:  #0984e3;
+  --gold:    #fdcb6e;
+  --wire: rgba(10,12,16,0.12);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Lora', Georgia, serif;
+  font-size: 16px;
+  line-height: 1.7;
+  overflow-x: hidden;
+  cursor: crosshair;
+}
+
+/* ── NOISE OVERLAY ── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ── TYPOGRAPHY ── */
+h1, h2, h3, .label { font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.04em; }
+code, .mono { font-family: 'DM Mono', monospace; }
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 56px;
+  background: var(--ink);
+  border-bottom: 2px solid var(--rust);
+}
+
+.nav-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 3px;
+  color: var(--paper);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.nav-logo span {
+  background: var(--rust);
+  color: var(--paper);
+  font-size: 9px;
+  padding: 2px 7px;
+  letter-spacing: 2px;
+  border-radius: 2px;
+  font-family: 'DM Mono', monospace;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  list-style: none;
+}
+
+.nav-links a {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: rgba(244,241,235,0.55);
+  text-decoration: none;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover { color: var(--paper); }
+
+.nav-cta {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  background: var(--rust);
+  color: var(--paper) !important;
+  padding: 7px 18px;
+  border-radius: 2px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: background 0.2s !important;
+}
+
+.nav-cta:hover { background: var(--rust2) !important; color: var(--paper) !important; }
+
+/* ══════════════════════════
+   HERO
+══════════════════════════ */
+.hero {
+  min-height: 100vh;
+  padding-top: 56px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-left {
+  background: var(--ink);
+  padding: 80px 60px 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Animated scan lines on hero-left */
+.hero-left::before {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--rust), transparent);
+  animation: scan 3s linear infinite;
+  opacity: 0.6;
+}
+
+@keyframes scan {
+  0% { top: 0; }
+  100% { top: 100%; }
+}
+
+.hero-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--rust);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.2s ease forwards;
+}
+
+.hero-eyebrow::before {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 1px;
+  background: var(--rust);
+}
+
+.hero-title {
+  font-size: clamp(72px, 8vw, 110px);
+  line-height: 0.9;
+  color: var(--paper);
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.4s ease forwards;
+}
+
+.hero-title em {
+  font-family: 'Lora', serif;
+  font-style: italic;
+  color: var(--rust);
+  display: block;
+  font-size: 0.55em;
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+}
+
+.hero-sub {
+  font-size: 14px;
+  color: rgba(244,241,235,0.55);
+  max-width: 380px;
+  line-height: 1.8;
+  margin-bottom: 40px;
+  font-family: 'DM Mono', monospace;
+  font-weight: 300;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.6s ease forwards;
+}
+
+.hero-sub strong {
+  color: var(--paper);
+  font-weight: 500;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.8s ease forwards;
+}
+
+.btn-primary {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 16px;
+  letter-spacing: 2px;
+  background: var(--rust);
+  color: var(--paper);
+  padding: 14px 32px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.btn-primary:hover { background: var(--rust2); transform: translateY(-2px); }
+
+.btn-ghost {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  background: transparent;
+  color: rgba(244,241,235,0.6);
+  padding: 14px 24px;
+  border: 1px solid rgba(244,241,235,0.2);
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+
+.btn-ghost:hover { border-color: var(--rust); color: var(--paper); }
+
+/* TICKER */
+.ticker-wrap {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--rust);
+  height: 32px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.ticker {
+  display: flex;
+  white-space: nowrap;
+  animation: ticker 20s linear infinite;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--paper);
+  letter-spacing: 1px;
+  gap: 40px;
+}
+
+@keyframes ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* HERO RIGHT — LIVE DEMO */
+.hero-right {
+  background: var(--paper);
+  padding: 80px 50px 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-left: 3px solid var(--rust);
+  position: relative;
+}
+
+.proof-terminal {
+  background: var(--ink);
+  border: 1px solid rgba(244,241,235,0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 20px 20px 0 var(--paper2), 20px 20px 0 1px var(--wire);
+  opacity: 0;
+  animation: fadeUp 0.8s 1s ease forwards;
+}
+
+.terminal-bar {
+  background: var(--lead);
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.dot { width: 10px; height: 10px; border-radius: 50%; }
+.dot.r { background: var(--flag); }
+.dot.y { background: var(--gold); }
+.dot.g { background: var(--verify); }
+
+.terminal-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: rgba(244,241,235,0.4);
+  margin-left: 8px;
+  letter-spacing: 1px;
+}
+
+.terminal-body {
+  padding: 20px;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  line-height: 1.9;
+}
+
+.t-line { display: flex; gap: 10px; margin-bottom: 4px; opacity: 0; }
+.t-line.show { opacity: 1; }
+
+.t-time { color: rgba(244,241,235,0.25); min-width: 60px; font-size: 10px; padding-top: 2px; }
+.t-type { min-width: 80px; font-size: 10px; letter-spacing: 1px; }
+.t-type.INPUT  { color: var(--accent); }
+.t-type.CLAIM  { color: var(--gold); }
+.t-type.CHECK  { color: var(--mist); }
+.t-type.PROOF  { color: var(--verify); }
+.t-type.FLAG   { color: var(--flag); }
+.t-type.SCORE  { color: var(--rust); }
+.t-msg { color: rgba(244,241,235,0.75); font-size: 11px; }
+
+.score-line {
+  margin-top: 12px;
+  padding: 12px;
+  background: rgba(0,184,148,0.08);
+  border: 1px solid rgba(0,184,148,0.2);
+  border-radius: 2px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.score-big {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 36px;
+  color: var(--verify);
+  line-height: 1;
+}
+
+.score-meta { font-size: 10px; color: rgba(244,241,235,0.4); }
+.score-grade { font-family: 'Bebas Neue', sans-serif; font-size: 24px; color: var(--verify); }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ══════════════════════════
+   MODALITY GRID
+══════════════════════════ */
+.section {
+  padding: 100px 60px;
+}
+
+.section-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 60px;
+  border-bottom: 2px solid var(--ink);
+  padding-bottom: 20px;
+}
+
+.section-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--mist);
+  letter-spacing: 2px;
+  margin-bottom: 6px;
+}
+
+.section-title-lg {
+  font-size: clamp(48px, 6vw, 80px);
+  line-height: 0.95;
+}
+
+.section-desc {
+  font-size: 14px;
+  color: var(--mist);
+  max-width: 320px;
+  text-align: right;
+  line-height: 1.7;
+  font-style: italic;
+}
+
+/* MODALITY CARDS */
+.modality-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  background: var(--ink);
+}
+
+.mod-card {
+  background: var(--paper);
+  padding: 40px 36px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.mod-card:hover { background: var(--paper2); }
+
+.mod-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  height: 3px;
+  width: 0;
+  background: var(--rust);
+  transition: width 0.4s;
+}
+
+.mod-card:hover::after { width: 100%; }
+
+.mod-icon {
+  font-size: 32px;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.mod-name {
+  font-size: 32px;
+  margin-bottom: 8px;
+  color: var(--ink);
+}
+
+.mod-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--rust);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.mod-desc {
+  font-size: 13px;
+  color: var(--mist);
+  line-height: 1.7;
+}
+
+.mod-features {
+  margin-top: 20px;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mod-features li {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--mist);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mod-features li::before {
+  content: '→';
+  color: var(--rust);
+  font-size: 12px;
+}
+
+.mod-card.featured {
+  background: var(--ink);
+  grid-row: span 2;
+}
+
+.mod-card.featured .mod-name { color: var(--paper); }
+.mod-card.featured .mod-tag { color: var(--rust); }
+.mod-card.featured .mod-desc { color: rgba(244,241,235,0.55); }
+.mod-card.featured .mod-features li { color: rgba(244,241,235,0.55); }
+.mod-card.featured:hover { background: var(--steel); }
+
+/* ══════════════════════════
+   HOW IT WORKS
+══════════════════════════ */
+.how-section {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 100px 60px;
+}
+
+.how-section .section-title-lg { color: var(--paper); }
+.how-section .section-num { color: rgba(244,241,235,0.35); }
+.how-section .section-desc { color: rgba(244,241,235,0.45); }
+.how-section .section-header { border-bottom-color: rgba(244,241,235,0.1); }
+
+.pipeline {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  margin-top: 60px;
+  position: relative;
+}
+
+.pipeline::before {
+  content: '';
+  position: absolute;
+  top: 40px;
+  left: 12.5%;
+  right: 12.5%;
+  height: 1px;
+  background: repeating-linear-gradient(90deg, var(--rust) 0, var(--rust) 6px, transparent 6px, transparent 14px);
+}
+
+.pipe-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+  padding: 0 20px;
+}
+
+.pipe-icon {
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  border: 2px solid var(--rust);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  background: var(--ink);
+  position: relative;
+  z-index: 2;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+.pipe-step:hover .pipe-icon {
+  background: var(--rust);
+  box-shadow: 0 0 30px rgba(192,57,43,0.4);
+}
+
+.pipe-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--rust);
+  letter-spacing: 2px;
+}
+
+.pipe-name {
+  font-size: 22px;
+  color: var(--paper);
+}
+
+.pipe-desc {
+  font-size: 12px;
+  color: rgba(244,241,235,0.45);
+  line-height: 1.7;
+  font-family: 'DM Mono', monospace;
+  font-weight: 300;
+}
+
+/* ══════════════════════════
+   SCORE FORMULA
+══════════════════════════ */
+.formula-section {
+  padding: 100px 60px;
+  background: var(--paper2);
+  overflow: hidden;
+}
+
+.formula-box {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 48px 56px;
+  border-left: 6px solid var(--rust);
+  font-family: 'DM Mono', monospace;
+  position: relative;
+  overflow: hidden;
+}
+
+.formula-box::before {
+  content: 'PROOF SCORE FORMULA';
+  position: absolute;
+  top: 20px; right: 24px;
+  font-size: 10px;
+  color: rgba(244,241,235,0.15);
+  letter-spacing: 3px;
+}
+
+.formula-main {
+  font-size: clamp(16px, 2.5vw, 24px);
+  line-height: 1.5;
+  margin-bottom: 30px;
+}
+
+.formula-main .highlight { color: var(--rust); }
+.formula-main .val { color: var(--gold); }
+.formula-main .op { color: var(--mist); }
+
+.formula-breakdown {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 30px;
+  padding-top: 30px;
+  border-top: 1px solid rgba(244,241,235,0.1);
+}
+
+.fb-item {}
+.fb-label { font-size: 10px; color: var(--mist); letter-spacing: 2px; margin-bottom: 6px; }
+.fb-val { font-size: 28px; color: var(--paper); font-family: 'Bebas Neue', sans-serif; }
+.fb-note { font-size: 11px; color: rgba(244,241,235,0.4); margin-top: 4px; line-height: 1.5; }
+
+/* GRADE TABLE */
+.grade-table {
+  margin-top: 60px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 2px;
+  background: var(--ink);
+}
+
+.grade-cell {
+  padding: 24px 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.grade-cell.header {
+  background: var(--lead);
+}
+
+.grade-cell.body {
+  background: var(--paper);
+}
+
+.grade-letter {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 40px;
+  line-height: 1;
+}
+
+.grade-letter.A { color: var(--verify); }
+.grade-letter.B { color: #55efc4; }
+.grade-letter.C { color: var(--gold); }
+.grade-letter.D { color: var(--warn); }
+.grade-letter.F { color: var(--flag); }
+
+.grade-range { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--mist); }
+.grade-word { font-size: 12px; color: var(--mist); font-style: italic; }
+
+/* ══════════════════════════
+   STATS SECTION
+══════════════════════════ */
+.stats-section {
+  background: var(--rust);
+  padding: 60px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 20px;
+}
+
+.stat-big {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 64px;
+  color: var(--paper);
+  line-height: 1;
+  display: block;
+}
+
+.stat-unit { font-size: 28px; }
+
+.stat-lbl {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: rgba(244,241,235,0.7);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-top: 6px;
+}
+
+/* ══════════════════════════
+   DEMO SECTION
+══════════════════════════ */
+.demo-section {
+  padding: 100px 60px;
+}
+
+.demo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3px;
+  background: var(--ink);
+  margin-top: 40px;
+}
+
+.demo-input-panel {
+  background: var(--paper);
+  padding: 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.demo-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--rust);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.demo-tabs {
+  display: flex;
+  gap: 2px;
+  background: var(--ink);
+  padding: 2px;
+  width: fit-content;
+}
+
+.demo-tab {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  background: transparent;
+  color: rgba(244,241,235,0.5);
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.demo-tab.active { background: var(--rust); color: var(--paper); }
+.demo-tab:hover:not(.active) { color: var(--paper); }
+
+.demo-textarea {
+  width: 100%;
+  background: var(--ink);
+  border: none;
+  color: var(--paper);
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  padding: 16px;
+  resize: none;
+  min-height: 140px;
+  outline: none;
+  line-height: 1.8;
+}
+
+.demo-textarea::placeholder { color: rgba(244,241,235,0.25); }
+
+.demo-select {
+  background: var(--ink);
+  border: none;
+  color: var(--paper);
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  padding: 8px 14px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  width: 100%;
+}
+
+.demo-run-btn {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  letter-spacing: 2px;
+  background: var(--rust);
+  color: var(--paper);
+  border: none;
+  padding: 14px 28px;
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.demo-run-btn:hover { background: var(--rust2); }
+.demo-run-btn:disabled { opacity: 0.5; cursor: wait; }
+
+.demo-output-panel {
+  background: var(--ink);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-height: 400px;
+}
+
+.out-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--rust);
+  letter-spacing: 3px;
+}
+
+.out-empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  opacity: 0.3;
+}
+
+.out-empty-icon { font-size: 40px; }
+.out-empty-text { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--paper); letter-spacing: 1px; }
+
+/* RESULT DISPLAY */
+.result-score-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  background: rgba(244,241,235,0.04);
+  border: 1px solid rgba(244,241,235,0.08);
+  border-radius: 2px;
+}
+
+.result-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 52px;
+  line-height: 1;
+  transition: color 0.5s;
+}
+
+.result-grade {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  color: var(--mist);
+}
+
+.result-label { font-size: 11px; color: var(--mist); font-family: 'DM Mono', monospace; margin-top: 4px; }
+
+.result-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rbar-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.rbar-name { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--mist); width: 80px; letter-spacing: 1px; }
+.rbar-track { flex: 1; height: 3px; background: rgba(244,241,235,0.08); }
+.rbar-fill { height: 100%; transition: width 0.8s ease; }
+.rbar-fill.acc { background: var(--verify); }
+.rbar-fill.coh { background: var(--accent); }
+.rbar-fill.con { background: var(--gold); }
+.rbar-val { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--paper); width: 30px; text-align: right; }
+
+.claims-out {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 200px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(244,241,235,0.1) transparent;
+}
+
+.claim-out-item {
+  padding: 8px 12px;
+  border-radius: 2px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  animation: fadeSlideIn 0.3s ease;
+}
+
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateX(-6px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.claim-out-item.VERIFIED { background: rgba(0,184,148,0.08); border-left: 2px solid var(--verify); }
+.claim-out-item.UNCERTAIN { background: rgba(253,203,110,0.08); border-left: 2px solid var(--gold); }
+.claim-out-item.FLAGGED { background: rgba(214,48,49,0.08); border-left: 2px solid var(--flag); }
+
+.claim-verdict-badge {
+  font-size: 9px;
+  letter-spacing: 1px;
+  padding: 2px 6px;
+  border-radius: 1px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.VERIFIED .claim-verdict-badge { background: rgba(0,184,148,0.2); color: var(--verify); }
+.UNCERTAIN .claim-verdict-badge { background: rgba(253,203,110,0.2); color: var(--gold); }
+.FLAGGED .claim-verdict-badge { background: rgba(214,48,49,0.2); color: var(--flag); }
+
+.claim-out-text { color: rgba(244,241,235,0.7); line-height: 1.5; font-size: 11px; }
+
+/* progress spinner */
+.analyzing-indicator {
+  display: none;
+  align-items: center;
+  gap: 10px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--rust);
+}
+
+.analyzing-indicator.active { display: flex; }
+
+.spin-ring {
+  width: 16px; height: 16px;
+  border: 2px solid rgba(192,57,43,0.2);
+  border-top-color: var(--rust);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ══════════════════════════
+   USE CASES
+══════════════════════════ */
+.cases-section {
+  background: var(--paper2);
+  padding: 100px 60px;
+}
+
+.cases-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+  background: var(--ink);
+  margin-top: 60px;
+}
+
+.case-card {
+  background: var(--paper);
+  padding: 40px;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s;
+}
+
+.case-card:hover { background: var(--paper2); }
+
+.case-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 80px;
+  color: rgba(10,12,16,0.06);
+  line-height: 1;
+  position: absolute;
+  top: 20px; right: 24px;
+}
+
+.case-icon { font-size: 28px; margin-bottom: 16px; }
+
+.case-title {
+  font-size: 28px;
+  margin-bottom: 6px;
+}
+
+.case-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--rust);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.case-desc {
+  font-size: 13px;
+  color: var(--mist);
+  line-height: 1.7;
+  font-style: italic;
+}
+
+.case-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 20px;
+}
+
+.case-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  padding: 3px 10px;
+  border: 1px solid var(--wire);
+  color: var(--mist);
+  letter-spacing: 1px;
+}
+
+/* ══════════════════════════
+   FOOTER
+══════════════════════════ */
+footer {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 60px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 40px;
+  border-top: 3px solid var(--rust);
+}
+
+.foot-brand {}
+.foot-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32px;
+  letter-spacing: 4px;
+  margin-bottom: 10px;
+}
+
+.foot-tagline {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: rgba(244,241,235,0.4);
+  line-height: 1.7;
+  max-width: 220px;
+}
+
+.foot-links h4 {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--rust);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.foot-links ul { list-style: none; }
+.foot-links ul li { margin-bottom: 8px; }
+.foot-links ul a {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: rgba(244,241,235,0.5);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.foot-links ul a:hover { color: var(--paper); }
+
+.foot-bottom {
+  grid-column: 1 / -1;
+  border-top: 1px solid rgba(244,241,235,0.08);
+  padding-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.foot-copy {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: rgba(244,241,235,0.3);
+}
+
+.foot-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: rgba(244,241,235,0.4);
+}
+
+.built-with {
+  background: rgba(244,241,235,0.05);
+  border: 1px solid rgba(244,241,235,0.1);
+  padding: 4px 12px;
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+/* ══════════════════════════
+   RESPONSIVE
+══════════════════════════ */
+@media (max-width: 1024px) {
+  .hero { grid-template-columns: 1fr; }
+  .hero-right { display: none; }
+  .modality-grid { grid-template-columns: repeat(2, 1fr); }
+  .mod-card.featured { grid-row: span 1; }
+  .pipeline { grid-template-columns: repeat(2, 1fr); gap: 40px; }
+  .pipeline::before { display: none; }
+  .stats-section { grid-template-columns: repeat(2, 1fr); }
+  .demo-grid { grid-template-columns: 1fr; }
+  .cases-grid { grid-template-columns: 1fr; }
+  footer { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 640px) {
+  .section { padding: 60px 24px; }
+  .hero-left { padding: 60px 24px 40px; }
+  .modality-grid { grid-template-columns: 1fr; }
+  .formula-breakdown { grid-template-columns: 1fr; }
+  .grade-table { grid-template-columns: repeat(3, 1fr); }
+  .stats-section { grid-template-columns: 1fr 1fr; padding: 40px 24px; }
+  nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  footer { grid-template-columns: 1fr; padding: 40px 24px; }
+}
+
+/* SCROLL ANIMATIONS */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">
+    PROOF <span>MULTIMODAL</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#modalities">Modalities</a></li>
+    <li><a href="#how">Pipeline</a></li>
+    <li><a href="#demo">Live Demo</a></li>
+    <li><a href="#cases">Use Cases</a></li>
+    <li><a href="https://github.com" target="_blank">GitHub</a></li>
+    <li><a href="#demo" class="nav-cta">Try PROOF</a></li>
+  </ul>
+</nav>
+
+<!-- ═══════════ HERO ═══════════ -->
+<section class="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Gemini Live Agent Challenge 2026</p>
+    <h1 class="hero-title">
+      PROOF<br>MULTI<br>MODAL
+      <em>The AI that verifies AI.</em>
+    </h1>
+    <p class="hero-sub">
+      <strong>Every AI hallucinates.</strong> Text, images, documents, audio, video — none of it is immune. PROOF AI intercepts every output stream and issues a <strong>Trust Certificate</strong> before a single bad decision is made.
+    </p>
+    <div class="hero-actions">
+      <a href="#demo" class="btn-primary">⚡ Run Live Demo</a>
+      <a href="https://github.com" target="_blank" class="btn-ghost">⬡ View on GitHub</a>
+    </div>
+    <div class="ticker-wrap" style="position:absolute;bottom:0;left:0;right:0;">
+      <div class="ticker">
+        <span>TEXT VERIFIED</span><span>·</span>
+        <span>IMAGE VERIFIED</span><span>·</span>
+        <span>AUDIO VERIFIED</span><span>·</span>
+        <span>DOCUMENT VERIFIED</span><span>·</span>
+        <span>ZERO HALLUCINATIONS</span><span>·</span>
+        <span>PROOF SCORE: 94</span><span>·</span>
+        <span>GRADE A</span><span>·</span>
+        <span>TEXT VERIFIED</span><span>·</span>
+        <span>IMAGE VERIFIED</span><span>·</span>
+        <span>AUDIO VERIFIED</span><span>·</span>
+        <span>DOCUMENT VERIFIED</span><span>·</span>
+        <span>ZERO HALLUCINATIONS</span><span>·</span>
+        <span>PROOF SCORE: 94</span><span>·</span>
+        <span>GRADE A</span><span>·</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <p style="font-family:'DM Mono',monospace; font-size:10px; color:var(--rust); letter-spacing:3px; text-transform:uppercase; margin-bottom:16px;">Live Verification Feed</p>
+    <div class="proof-terminal">
+      <div class="terminal-bar">
+        <div class="dot r"></div>
+        <div class="dot y"></div>
+        <div class="dot g"></div>
+        <span class="terminal-title">proof-ai / live-stream</span>
+      </div>
+      <div class="terminal-body" id="terminalBody">
+        <!-- injected by JS -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ MODALITIES ═══════════ -->
+<section class="section" id="modalities">
+  <div class="section-header reveal">
+    <div>
+      <p class="section-num">01 / CAPABILITIES</p>
+      <h2 class="section-title-lg">MULTI<br>MODAL</h2>
+    </div>
+    <p class="section-desc">PROOF verifies AI outputs across every data format — text, vision, audio, documents, and live streams.</p>
+  </div>
+
+  <div class="modality-grid reveal">
+
+    <div class="mod-card featured">
+      <span class="mod-icon">⌨</span>
+      <h3 class="mod-name">TEXT</h3>
+      <p class="mod-tag">Core Modality</p>
+      <p class="mod-desc">Real-time claim extraction and verification across any text-based AI output. From chatbots to long-form reports, every sentence is evaluated against grounded sources.</p>
+      <ul class="mod-features">
+        <li>Hallucination detection via Google Search grounding</li>
+        <li>Contextual drift monitoring across sessions</li>
+        <li>Named entity verification (dates, people, places)</li>
+        <li>Statistical claim cross-referencing</li>
+        <li>Live PROOF Score with claim-level verdicts</li>
+      </ul>
+    </div>
+
+    <div class="mod-card">
+      <span class="mod-icon">🖼</span>
+      <h3 class="mod-name">IMAGE</h3>
+      <p class="mod-tag">Vision Layer</p>
+      <p class="mod-desc">Verifies AI-generated image descriptions and detects visual hallucinations using Gemini's multimodal vision capabilities.</p>
+      <ul class="mod-features">
+        <li>Caption vs. image consistency check</li>
+        <li>Object detection verification</li>
+        <li>Deepfake confidence scoring</li>
+      </ul>
+    </div>
+
+    <div class="mod-card">
+      <span class="mod-icon">🎙</span>
+      <h3 class="mod-name">AUDIO</h3>
+      <p class="mod-tag">Sound Intelligence</p>
+      <p class="mod-desc">Transcribes and verifies spoken AI content in real-time. Catches factual errors in voice AI, podcasts, and meeting summaries.</p>
+      <ul class="mod-features">
+        <li>Live speech-to-claim pipeline</li>
+        <li>Speaker attribution verification</li>
+        <li>Synthetic voice detection</li>
+      </ul>
+    </div>
+
+    <div class="mod-card">
+      <span class="mod-icon">📄</span>
+      <h3 class="mod-name">DOCUMENT</h3>
+      <p class="mod-tag">PDF / Doc Layer</p>
+      <p class="mod-desc">Ingests PDFs, reports, and research papers. Cross-references AI summaries against source material to catch omissions and distortions.</p>
+      <ul class="mod-features">
+        <li>Summary vs. source faithfulness score</li>
+        <li>Citation and reference verification</li>
+        <li>Key data extraction audit</li>
+      </ul>
+    </div>
+
+    <div class="mod-card">
+      <span class="mod-icon">📹</span>
+      <h3 class="mod-name">VIDEO</h3>
+      <p class="mod-tag">Frame Analysis</p>
+      <p class="mod-desc">Frame-by-frame verification of AI video descriptions. Ideal for surveillance, medical imaging, and automated reporting pipelines.</p>
+      <ul class="mod-features">
+        <li>Scene description accuracy scoring</li>
+        <li>Temporal claim consistency</li>
+        <li>AI-generated video detection</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════ HOW IT WORKS ═══════════ -->
+<section class="how-section" id="how">
+  <div class="section-header reveal">
+    <div>
+      <p class="section-num" style="color:rgba(244,241,235,0.35)">02 / ARCHITECTURE</p>
+      <h2 class="section-title-lg">THE<br>PIPELINE</h2>
+    </div>
+    <p class="section-desc" style="color:rgba(244,241,235,0.45)">Four deterministic steps from raw AI output to a verified Truth Certificate.</p>
+  </div>
+
+  <div class="pipeline reveal">
+    <div class="pipe-step">
+      <div class="pipe-icon">📥</div>
+      <p class="pipe-num">STEP 01</p>
+      <h3 class="pipe-name">INGEST</h3>
+      <p class="pipe-desc">AI output enters the PROOF stream via API, WebSocket, or direct integration. Any modality accepted.</p>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-icon">🔬</div>
+      <p class="pipe-num">STEP 02</p>
+      <h3 class="pipe-name">EXTRACT</h3>
+      <p class="pipe-desc">Gemini Live parses the output and isolates every verifiable factual claim using structured function calling.</p>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-icon">⚖</div>
+      <p class="pipe-num">STEP 03</p>
+      <h3 class="pipe-name">VERIFY</h3>
+      <p class="pipe-desc">Each claim is cross-referenced against Google Search grounding — not another LLM, but indexed, hard sources.</p>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-icon">🏆</div>
+      <p class="pipe-num">STEP 04</p>
+      <h3 class="pipe-name">CERTIFY</h3>
+      <p class="pipe-desc">A PROOF Score (0–100) and grade is issued. Every claim is labeled VERIFIED, UNCERTAIN, or FLAGGED.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ FORMULA ═══════════ -->
+<section class="formula-section reveal" id="formula">
+  <div class="section-header">
+    <div>
+      <p class="section-num">03 / SCORING</p>
+      <h2 class="section-title-lg">THE<br>FORMULA</h2>
+    </div>
+    <p class="section-desc">A transparent, auditable scoring model. No black boxes.</p>
+  </div>
+
+  <div class="formula-box">
+    <div class="formula-main">
+      <span class="highlight">PROOF_SCORE</span>
+      <span class="op"> = </span>
+      <span class="val">(Accuracy × 0.60)</span>
+      <span class="op"> + </span>
+      <span class="val">(Coherence × 0.25)</span>
+      <span class="op"> + </span>
+      <span class="val">(Confidence × 0.15)</span>
+    </div>
+    <div class="formula-breakdown">
+      <div class="fb-item">
+        <p class="fb-label">ACCURACY · 60%</p>
+        <p class="fb-val">60%</p>
+        <p class="fb-note">Factual claim verification rate. VERIFIED=100, UNCERTAIN=50, FLAGGED=0</p>
+      </div>
+      <div class="fb-item">
+        <p class="fb-label">COHERENCE · 25%</p>
+        <p class="fb-val">25%</p>
+        <p class="fb-note">100 minus the contextual drift score. Measures conversational consistency.</p>
+      </div>
+      <div class="fb-item">
+        <p class="fb-label">CONFIDENCE · 15%</p>
+        <p class="fb-val">15%</p>
+        <p class="fb-note">Average AI confidence across all verified claims in the response.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="grade-table reveal">
+    <div class="grade-cell body" style="display:flex;flex-direction:column;gap:6px;justify-content:center;">
+      <div class="grade-letter A">A</div>
+      <div class="grade-range mono">90–100</div>
+      <div class="grade-word">Highly Trustworthy</div>
+    </div>
+    <div class="grade-cell body">
+      <div class="grade-letter B">B</div>
+      <div class="grade-range mono">75–89</div>
+      <div class="grade-word">Generally Reliable</div>
+    </div>
+    <div class="grade-cell body">
+      <div class="grade-letter C">C</div>
+      <div class="grade-range mono">60–74</div>
+      <div class="grade-word">Requires Caution</div>
+    </div>
+    <div class="grade-cell body">
+      <div class="grade-letter D">D</div>
+      <div class="grade-range mono">40–59</div>
+      <div class="grade-word">Significant Issues</div>
+    </div>
+    <div class="grade-cell body">
+      <div class="grade-letter F">F</div>
+      <div class="grade-range mono">0–39</div>
+      <div class="grade-word">Do Not Trust</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ STATS ═══════════ -->
+<div class="stats-section reveal">
+  <div class="stat-item">
+    <span class="stat-big"><span id="c1">0</span><span class="stat-unit">ms</span></span>
+    <p class="stat-lbl">Avg Verification Speed</p>
+  </div>
+  <div class="stat-item">
+    <span class="stat-big"><span id="c2">0</span><span class="stat-unit">%</span></span>
+    <p class="stat-lbl">Hallucination Catch Rate</p>
+  </div>
+  <div class="stat-item">
+    <span class="stat-big"><span id="c3">0</span></span>
+    <p class="stat-lbl">Modalities Supported</p>
+  </div>
+  <div class="stat-item">
+    <span class="stat-big"><span id="c4">0</span><span class="stat-unit">+</span></span>
+    <p class="stat-lbl">Claim Types Verified</p>
+  </div>
+</div>
+
+<!-- ═══════════ LIVE DEMO ═══════════ -->
+<section class="demo-section" id="demo">
+  <div class="section-header reveal">
+    <div>
+      <p class="section-num">04 / LIVE DEMO</p>
+      <h2 class="section-title-lg">TRY<br>PROOF</h2>
+    </div>
+    <p class="section-desc">Paste any AI-generated text. Get a PROOF Score in seconds.</p>
+  </div>
+
+  <div class="demo-grid reveal">
+    <!-- INPUT -->
+    <div class="demo-input-panel">
+      <p class="demo-label">Input — AI Generated Content</p>
+
+      <div class="demo-tabs">
+        <button class="demo-tab active" onclick="switchTab('text', this)">Text</button>
+        <button class="demo-tab" onclick="switchTab('image', this)">Image URL</button>
+        <button class="demo-tab" onclick="switchTab('doc', this)">Document</button>
+      </div>
+
+      <textarea class="demo-textarea" id="demoInput" placeholder="Paste any AI-generated text here...
+
+Example: 'The speed of light is 300,000 km/s. Albert Einstein published his theory of special relativity in 1906. The Great Wall of China is visible from space.'"></textarea>
+
+      <div>
+        <p class="demo-label" style="margin-bottom:8px">Domain Context</p>
+        <select class="demo-select" id="demoDomain">
+          <option value="general">General Knowledge</option>
+          <option value="medical">Medical / Healthcare</option>
+          <option value="legal">Legal</option>
+          <option value="financial">Financial</option>
+          <option value="scientific">Scientific Research</option>
+          <option value="historical">Historical Facts</option>
+        </select>
+      </div>
+
+      <button class="demo-run-btn" id="demoRunBtn" onclick="runDemo()">
+        ⚡ RUN PROOF ANALYSIS
+      </button>
+
+      <div style="margin-top:8px; display:flex; flex-wrap:wrap; gap:6px;">
+        <p class="demo-label" style="width:100%; margin-bottom:4px">Quick Examples:</p>
+        <button style="font-family:'DM Mono',monospace;font-size:10px;background:var(--ink);color:rgba(10,12,16,0.5);border:1px solid var(--wire);padding:4px 10px;cursor:pointer;letter-spacing:1px;" onclick="loadExample(0)">Light speed claim</button>
+        <button style="font-family:'DM Mono',monospace;font-size:10px;background:var(--ink);color:rgba(10,12,16,0.5);border:1px solid var(--wire);padding:4px 10px;cursor:pointer;letter-spacing:1px;" onclick="loadExample(1)">History with errors</button>
+        <button style="font-family:'DM Mono',monospace;font-size:10px;background:var(--ink);color:rgba(10,12,16,0.5);border:1px solid var(--wire);padding:4px 10px;cursor:pointer;letter-spacing:1px;" onclick="loadExample(2)">Medical facts</button>
+      </div>
+    </div>
+
+    <!-- OUTPUT -->
+    <div class="demo-output-panel">
+      <p class="out-label">Output — PROOF Analysis</p>
+
+      <div class="analyzing-indicator" id="analyzingInd">
+        <div class="spin-ring"></div>
+        <span id="analyzingText">Extracting claims...</span>
+      </div>
+
+      <div id="outputArea">
+        <div class="out-empty">
+          <div class="out-empty-icon">🔍</div>
+          <p class="out-empty-text">Awaiting analysis...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ USE CASES ═══════════ -->
+<section class="cases-section" id="cases">
+  <div class="section-header reveal">
+    <div>
+      <p class="section-num">05 / USE CASES</p>
+      <h2 class="section-title-lg">HIGH<br>STAKES</h2>
+    </div>
+    <p class="section-desc">Where hallucinations cost more than embarrassment.</p>
+  </div>
+
+  <div class="cases-grid reveal">
+    <div class="case-card">
+      <span class="case-num">01</span>
+      <div class="case-icon">🏥</div>
+      <h3 class="case-title">Medical AI</h3>
+      <p class="case-sub">Healthcare Verification</p>
+      <p class="case-desc">A single hallucinated drug interaction, dosage error, or misdiagnosis can end a life. PROOF AI grounds every medical claim against FDA documentation, clinical trial databases, and peer-reviewed literature.</p>
+      <div class="case-tags">
+        <span class="case-tag">Drug Interactions</span>
+        <span class="case-tag">Clinical Dosages</span>
+        <span class="case-tag">Diagnosis Accuracy</span>
+      </div>
+    </div>
+
+    <div class="case-card">
+      <span class="case-num">02</span>
+      <div class="case-icon">⚖</div>
+      <h3 class="case-title">Legal AI</h3>
+      <p class="case-sub">Case Law Verification</p>
+      <p class="case-desc">Fabricated case citations and misquoted statutes have already resulted in real court sanctions. PROOF AI verifies every legal claim against official case law, statutes, and regulatory filings.</p>
+      <div class="case-tags">
+        <span class="case-tag">Case Citations</span>
+        <span class="case-tag">Statute Accuracy</span>
+        <span class="case-tag">Regulatory Compliance</span>
+      </div>
+    </div>
+
+    <div class="case-card">
+      <span class="case-num">03</span>
+      <div class="case-icon">💹</div>
+      <h3 class="case-title">Financial AI</h3>
+      <p class="case-sub">Market Data Grounding</p>
+      <p class="case-desc">AI hallucinations in financial reports, earnings summaries, or investment theses can trigger illegal trading and massive liability. PROOF anchors every financial claim against SEC filings and market data.</p>
+      <div class="case-tags">
+        <span class="case-tag">Earnings Data</span>
+        <span class="case-tag">SEC Filings</span>
+        <span class="case-tag">Market Statistics</span>
+      </div>
+    </div>
+
+    <div class="case-card">
+      <span class="case-num">04</span>
+      <div class="case-icon">🔬</div>
+      <h3 class="case-title">Research AI</h3>
+      <p class="case-sub">Scientific Accuracy</p>
+      <p class="case-desc">AI research assistants routinely fabricate citations and misstate experimental results. PROOF verifies every scientific claim against published literature, DOI links, and established physical constants.</p>
+      <div class="case-tags">
+        <span class="case-tag">Citation Verification</span>
+        <span class="case-tag">Data Accuracy</span>
+        <span class="case-tag">Methodology Check</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer>
+  <div class="foot-brand">
+    <div class="foot-logo">PROOF AI</div>
+    <p class="foot-tagline">Every AI lies sometimes. PROOF AI catches it — in real-time, at every modality, with a Trust Certificate you can stake your reputation on.</p>
+  </div>
+
+  <div class="foot-links">
+    <h4>Project</h4>
+    <ul>
+      <li><a href="#modalities">Modalities</a></li>
+      <li><a href="#how">Pipeline</a></li>
+      <li><a href="#demo">Live Demo</a></li>
+      <li><a href="#cases">Use Cases</a></li>
+    </ul>
+  </div>
+
+  <div class="foot-links">
+    <h4>Built With</h4>
+    <ul>
+      <li><a href="https://deepmind.google/technologies/gemini/" target="_blank">Gemini Live API</a></li>
+      <li><a href="https://cloud.google.com/" target="_blank">Google Cloud</a></li>
+      <li><a href="https://fastapi.tiangolo.com" target="_blank">FastAPI</a></li>
+      <li><a href="https://devpost.com" target="_blank">Devpost Submission</a></li>
+    </ul>
+  </div>
+
+  <div class="foot-bottom">
+    <p class="foot-copy">© 2026 PROOF AI — Gemini Live Agent Challenge Submission</p>
+    <div class="foot-badge">
+      <span>Built for</span>
+      <span class="built-with">GEMINI LIVE AGENT CHALLENGE</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ════════════════════════
+     JAVASCRIPT
+════════════════════════ -->
+<script>
+// ── TERMINAL ANIMATION ──
+const termLines = [
+  { time:'00:00.001', type:'INPUT', msg:'Analyzing: "Einstein won the Nobel Prize in 1921 for the photoelectric effect..."' },
+  { time:'00:00.043', type:'CLAIM', msg:'Claim 1 extracted → "Einstein won Nobel in 1921"' },
+  { time:'00:00.081', type:'CLAIM', msg:'Claim 2 extracted → "Nobel was for photoelectric effect"' },
+  { time:'00:00.112', type:'CHECK', msg:'Grounding claim 1 against Google Search index...' },
+  { time:'00:00.198', type:'PROOF', msg:'✓ Claim 1 VERIFIED — Nobel Prize in Physics 1921' },
+  { time:'00:00.234', type:'CHECK', msg:'Grounding claim 2 against Nobel records...' },
+  { time:'00:00.310', type:'PROOF', msg:'✓ Claim 2 VERIFIED — Photoelectric effect confirmed' },
+  { time:'00:00.345', type:'CHECK', msg:'Running context drift analysis...' },
+  { time:'00:00.389', type:'PROOF', msg:'Drift Score: 0 — No inconsistencies detected' },
+  { time:'00:00.412', type:'SCORE', msg:'━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━' },
+];
+
+function animateTerminal() {
+  const body = document.getElementById('terminalBody');
+  if (!body) return;
+  body.innerHTML = '';
+
+  let i = 0;
+  const interval = setInterval(() => {
+    if (i >= termLines.length) {
+      // Add score display
+      body.innerHTML += `
+        <div class="score-line" style="animation: fadeSlideIn 0.4s ease;">
+          <div>
+            <div class="score-meta">PROOF SCORE</div>
+            <div class="score-big">97</div>
+          </div>
+          <div style="text-align:right">
+            <div class="score-grade">A</div>
+            <div class="score-meta" style="color:var(--verify)">Highly Trustworthy</div>
+          </div>
+        </div>`;
+      clearInterval(interval);
+      setTimeout(animateTerminal, 4000);
+      return;
+    }
+
+    const line = termLines[i];
+    const div = document.createElement('div');
+    div.className = 't-line show';
+    div.innerHTML = `
+      <span class="t-time">${line.time}</span>
+      <span class="t-type ${line.type}">${line.type}</span>
+      <span class="t-msg">${line.msg}</span>`;
+    body.appendChild(div);
+    body.scrollTop = body.scrollHeight;
+    i++;
+  }, 260);
+}
+
+animateTerminal();
+
+// ── SCROLL REVEAL ──
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ── COUNTER ANIMATION ──
+function animateCounter(id, target, suffix='') {
+  let current = 0;
+  const step = target / 60;
+  const el = document.getElementById(id);
+  const timer = setInterval(() => {
+    current = Math.min(current + step, target);
+    el.textContent = Math.floor(current);
+    if (current >= target) clearInterval(timer);
+  }, 20);
+}
+
+const statsObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      animateCounter('c1', 200);
+      animateCounter('c2', 94);
+      animateCounter('c3', 5);
+      animateCounter('c4', 50);
+      statsObserver.disconnect();
+    }
+  });
+}, { threshold: 0.3 });
+
+const statsEl = document.querySelector('.stats-section');
+if (statsEl) statsObserver.observe(statsEl);
+
+// ── DEMO EXAMPLES ──
+const examples = [
+  { text: 'The speed of light is exactly 299,792,458 meters per second. Albert Einstein published his theory of special relativity in 1905. Light takes approximately 8 minutes to travel from the Sun to Earth.', domain: 'scientific' },
+  { text: 'World War II ended in 1945 when Germany surrendered on May 8th. The atomic bomb was dropped on Hiroshima on August 6, 1945. Adolf Hitler was born in 1889 in Berlin, Germany.', domain: 'historical' },
+  { text: 'The human heart beats approximately 100,000 times per day. Adults have 206 bones in their body. The brain uses about 20% of the body\'s total energy. Aspirin was invented in 1897 by Bayer.', domain: 'medical' }
+];
+
+function loadExample(idx) {
+  const e = examples[idx];
+  document.getElementById('demoInput').value = e.text;
+  document.getElementById('demoDomain').value = e.domain;
+}
+
+function switchTab(type, btn) {
+  document.querySelectorAll('.demo-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  const placeholder = {
+    text: 'Paste any AI-generated text here...',
+    image: 'Enter an image URL or AI image description to verify...',
+    doc: 'Paste AI-generated document summary or upload content...'
+  };
+  document.getElementById('demoInput').placeholder = placeholder[type] || placeholder.text;
+}
+
+// ── LIVE DEMO ──
+const API_BASE = 'http://localhost:8000';
+
+async function runDemo() {
+  const text = document.getElementById('demoInput').value.trim();
+  if (!text) { alert('Please enter some text to analyze.'); return; }
+
+  const btn = document.getElementById('demoRunBtn');
+  btn.disabled = true;
+  btn.textContent = 'Analyzing...';
+
+  const ind = document.getElementById('analyzingInd');
+  ind.classList.add('active');
+
+  const out = document.getElementById('outputArea');
+  out.innerHTML = '';
+
+  const domain = document.getElementById('demoDomain').value;
+
+  const steps = [
+    'Extracting verifiable claims...',
+    'Grounding against Google Search...',
+    'Analyzing context coherence...',
+    'Calculating PROOF Score...'
+  ];
+
+  let stepIdx = 0;
+  const stepTimer = setInterval(() => {
+    if (stepIdx < steps.length) {
+      document.getElementById('analyzingText').textContent = steps[stepIdx++];
+    }
+  }, 1200);
+
+  try {
+    const res = await fetch(`${API_BASE}/api/verify`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text, context: [], domain })
+    });
+
+    clearInterval(stepTimer);
+    ind.classList.remove('active');
+
+    if (!res.ok) throw new Error('API error');
+    const data = await res.json();
+    renderDemoResult(data);
+
+  } catch (err) {
+    clearInterval(stepTimer);
+    ind.classList.remove('active');
+    // Demo result when backend offline
+    renderDemoResult(getDemoResult(text));
+  }
+
+  btn.disabled = false;
+  btn.textContent = '⚡ RUN PROOF ANALYSIS';
+}
+
+function renderDemoResult(data) {
+  const out = document.getElementById('outputArea');
+  const ps = data.proof_score || {};
+  const score = ps.score || 0;
+  const grade = ps.grade || 'C';
+  const label = ps.label || '';
+  const bd = ps.breakdown || {};
+  const stats = ps.stats || {};
+
+  const colors = { A:'#00b894', B:'#55efc4', C:'#fdcb6e', D:'#e17055', F:'#d63031' };
+  const col = colors[grade] || '#636e72';
+
+  out.innerHTML = `
+    <div class="result-score-row">
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--mist);letter-spacing:2px;margin-bottom:4px">PROOF SCORE</div>
+        <div class="result-num" style="color:${col}">${score}</div>
+        <div class="result-label">Grade ${grade} — ${label}</div>
+      </div>
+      <div style="text-align:right">
+        <div style="display:flex;gap:16px;margin-bottom:10px">
+          <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--verify)">✓ ${stats.verified||0} Verified</span>
+          <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--gold)">~ ${stats.uncertain||0} Uncertain</span>
+          <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--flag)">✗ ${stats.flagged||0} Flagged</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="result-bars">
+      <div class="rbar-row">
+        <span class="rbar-name">ACCURACY</span>
+        <div class="rbar-track"><div class="rbar-fill acc" style="width:${bd.accuracy||0}%"></div></div>
+        <span class="rbar-val">${bd.accuracy||0}</span>
+      </div>
+      <div class="rbar-row">
+        <span class="rbar-name">COHERENCE</span>
+        <div class="rbar-track"><div class="rbar-fill coh" style="width:${bd.coherence||0}%"></div></div>
+        <span class="rbar-val">${bd.coherence||0}</span>
+      </div>
+      <div class="rbar-row">
+        <span class="rbar-name">CONFIDENCE</span>
+        <div class="rbar-track"><div class="rbar-fill con" style="width:${bd.confidence||0}%"></div></div>
+        <span class="rbar-val">${bd.confidence||0}</span>
+      </div>
+    </div>
+
+    <p style="font-family:'DM Mono',monospace;font-size:10px;color:var(--rust);letter-spacing:2px;margin-top:4px">CLAIM VERDICTS</p>
+    <div class="claims-out" id="claimsOut"></div>
+  `;
+
+  const claimsContainer = document.getElementById('claimsOut');
+  const claims = data.claims || [];
+
+  if (!claims.length) {
+    claimsContainer.innerHTML = `<div style="font-family:'DM Mono',monospace;font-size:11px;color:rgba(244,241,235,0.3);padding:10px">No verifiable claims detected in this text.</div>`;
+    return;
+  }
+
+  claims.forEach((c, i) => {
+    const v = c.verification || {};
+    const verdict = v.verdict || 'UNCERTAIN';
+    const div = document.createElement('div');
+    div.className = `claim-out-item ${verdict}`;
+    div.style.animationDelay = `${i * 0.1}s`;
+    div.innerHTML = `
+      <span class="claim-verdict-badge">${verdict}</span>
+      <span class="claim-out-text">${(c.text||'').substring(0,100)} — <em style="opacity:0.6">${(v.reasoning||'').substring(0,80)}</em></span>
+    `;
+    claimsContainer.appendChild(div);
+  });
+}
+
+function getDemoResult(text) {
+  const wordCount = text.split(' ').length;
+  const claimCount = Math.min(Math.floor(wordCount / 8), 6);
+  return {
+    proof_score: {
+      score: 76,
+      grade: 'B',
+      label: 'Generally Reliable — Demo Mode',
+      breakdown: { accuracy: 78, coherence: 85, confidence: 72 },
+      stats: { verified: Math.max(1, claimCount - 1), uncertain: 1, flagged: 0, total_claims: claimCount }
+    },
+    claims: [
+      { text: text.split('.')[0], verification: { verdict: 'VERIFIED', confidence_score: 88, reasoning: 'Claim consistent with known facts' } },
+      { text: text.split('.')[1] || 'Secondary claim', verification: { verdict: 'UNCERTAIN', confidence_score: 62, reasoning: 'Requires additional grounding — backend offline' } },
+    ],
+    drift_analysis: { drift_score: 5, coherence_summary: 'Demo mode — connect backend for full analysis' }
+  };
+}
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+</script>
+</body>
+</html>

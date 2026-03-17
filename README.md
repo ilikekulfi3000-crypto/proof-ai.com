@@ -11,7 +11,7 @@
 ---
 
 ## 🌐 Live Site
-**[proof-ai.github.io](https://your-username.github.io/proof-ai)**  
+**[proof-ai.github.io](https://ilikekulfi3000-crypto.github.io/proof-ai.com)**  
 *(Replace with your actual GitHub Pages URL after deployment)*
 
 ---
